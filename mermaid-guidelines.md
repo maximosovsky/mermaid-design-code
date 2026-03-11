@@ -30,7 +30,7 @@ mermaid-design-code/
 
 ### 2. Theme (dark/light)
 - Default: light mode
-- Icons: `moon.svg` / `sun.svg` from `../site-design/icons/`
+- Icons: [`moon.svg`](https://github.com/maximosovsky/site-design/blob/master/icons/moon.svg) / [`sun.svg`](https://github.com/maximosovsky/site-design/blob/master/icons/sun.svg) from [site-design/icons/](https://github.com/maximosovsky/site-design/tree/master/icons)
 - CSS filters for icon visibility:
   ```css
   .icon-moon { filter: brightness(0) saturate(100%) invert(84%) sepia(60%) saturate(600%) hue-rotate(5deg) brightness(105%); }

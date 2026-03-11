@@ -88,7 +88,7 @@ fill:#fffbeb, stroke:#f59e0b, stroke-width:2px, color:#000
 | Diagrams | [Mermaid v11](https://mermaid.js.org/) (CDN ESM) |
 | Fonts | [Google Fonts](https://fonts.google.com/): Sora, Lato |
 | Theme | CSS Variables + `data-theme` attribute |
-| Icons | `site-design/icons/` (moon.svg, sun.svg) |
+| Icons | [site-design/icons/](https://github.com/maximosovsky/site-design/tree/master/icons) (moon.svg, sun.svg) |
 | Zoom | Vanilla JS (wheel + drag) |
 
 ```

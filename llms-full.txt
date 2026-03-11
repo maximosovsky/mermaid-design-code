@@ -20,7 +20,7 @@ Every diagram is a pair of files with creation date in the filename:
 ## Theme System
 
 - Default: light mode
-- Toggle: moon.svg / sun.svg icons from `site-design/icons/`
+- Toggle: moon.svg / sun.svg icons from https://github.com/maximosovsky/site-design/tree/master/icons
 - Persistence: `localStorage`
 - CSS: `:root` (dark) and `[data-theme="light"]` variables
 - Mermaid: `themeVariables` must be specified for BOTH dark and light modes
