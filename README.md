@@ -1,5 +1,3 @@
-<div align="center">
-
 # 📐 Mermaid Design Code
 
 **Create beautiful, consistent Mermaid diagrams in HTML**
@@ -12,8 +10,6 @@ A design code standard for interactive Mermaid diagrams: pastel color palette, d
 **Mermaid v11 · Google Fonts · Zero frameworks**
 
 [Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Examples](#-examples) · [Guidelines](mermaid-guidelines.md)
-
-</div>
 
 ---
 
@@ -131,8 +127,6 @@ mermaid-design-code/
 
 ---
 
-<div align="center">
-
 ## 🤝 Contributing
 
 Fork → `feature/name` → PR
@@ -142,5 +136,3 @@ Fork → `feature/name` → PR
 ## 📄 License
 
 [Maxim Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under MIT.
-
-</div>
