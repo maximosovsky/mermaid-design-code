@@ -1,13 +1,21 @@
+<div align="center">
+
 # 📐 Mermaid Design Code
 
-[![Live Example](https://img.shields.io/badge/example-GitHub_Pages-81D8D0?style=for-the-badge)](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+![Mermaid](https://img.shields.io/badge/Mermaid-11-FF3670?style=for-the-badge&logo=mermaid&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **Create beautiful, consistent Mermaid diagrams in HTML**
 
+</div>
+
 > A design code is not a library or a tool. It's a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
 
-[Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Examples](#-examples) · [Guidelines](mermaid-guidelines.md)
+<div align="center">
+  <a href="#-quick-start">Quick Start</a> · <a href="#-features">Features</a> · <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> · <a href="#-examples">Examples</a> · <a href="mermaid-guidelines.md">Guidelines</a>
+</div>
 
 ---
 
