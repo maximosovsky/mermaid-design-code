@@ -141,6 +141,6 @@ Fork → `feature/name` → PR
 
 ## 📄 License
 
-[Max Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under MIT.
+[Maxim Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under MIT.
 
 </div>

@@ -6,7 +6,7 @@
 
 Mermaid Design Code is a set of rules, tokens, and examples for creating consistent Mermaid diagrams in HTML. Covers typography (Sora 700 + Lato 400/700), pastel classDef palette, dark/light theme with localStorage, zoom/pan controls, and file naming conventions. Every diagram is a pair: an interactive `.html` and a `-description.md` walkthrough.
 
-- Author: [Max Osovsky](https://www.linkedin.com/in/osovsky/)
+- Author: [Maxim Osovsky](https://www.linkedin.com/in/osovsky/)
 - URL: https://maximosovsky.github.io/mermaid-design-code/
 - License: MIT
 
