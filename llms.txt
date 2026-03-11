@@ -12,6 +12,6 @@ Mermaid Design Code is a set of rules, tokens, and examples for creating consist
 
 ## Docs
 
-- [Full documentation](https://raw.githubusercontent.com/maximosovsky/mermaid-design-code/main/llms-full.txt): Complete guidelines, color palette, and checklist
+- [Full documentation](https://github.com/maximosovsky/mermaid-design-code/blob/main/llms-full.txt): Complete guidelines, color palette, and checklist
 - [Guidelines](https://github.com/maximosovsky/mermaid-design-code/blob/main/mermaid-guidelines.md): Full design code standard
 - [Example](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html): Live diagram

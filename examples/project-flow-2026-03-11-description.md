@@ -1,6 +1,6 @@
 # Project Lifecycle Map
 
-> Text description of the diagram [project-flow-2026-03-11.html](file:///C:/100star/mermaid-design-code/examples/project-flow-2026-03-11.html)
+> Text description of the diagram [project-flow-2026-03-11.html](project-flow-2026-03-11.html)
 
 ---
 

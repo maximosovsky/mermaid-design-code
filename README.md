@@ -11,12 +11,13 @@ A design code standard for interactive Mermaid diagrams: pastel color palette, d
 
 **Mermaid v11 · Google Fonts · Zero frameworks**
 
+[Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Examples](#-examples) · [Guidelines](mermaid-guidelines.md)
+
 </div>
 
 ---
 
-> [!NOTE]
-> This is not a library or a tool. It's a **design code** — a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
+> A design code is not a library or a tool. It's a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
 
 ---
 
@@ -121,6 +122,15 @@ mermaid-design-code/
 
 ---
 
+## 📂 Examples
+
+| Diagram | Description |
+|---------|-------------|
+| [project-flow-2026-03-11.html](examples/project-flow-2026-03-11.html) | Project lifecycle pipeline ([live](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html)) |
+| [project-flow-2026-03-11-description.md](examples/project-flow-2026-03-11-description.md) | Text walkthrough |
+
+---
+
 <div align="center">
 
 ## 🤝 Contributing
@@ -131,6 +141,6 @@ Fork → `feature/name` → PR
 
 ## 📄 License
 
-MIT — [Max Osovsky](https://www.linkedin.com/in/osovsky/)
+[Max Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under MIT.
 
 </div>

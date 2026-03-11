@@ -223,5 +223,5 @@ NODE["Text<br/><a href='file:///C:/path'>local file</a>"]
 
 ## Example Files
 
-- [project-flow-2026-03-11.html](file:///C:/100star/mermaid-design-code/examples/project-flow-2026-03-11.html) — full pipeline diagram
-- [project-flow-2026-03-11-description.md](file:///C:/100star/mermaid-design-code/examples/project-flow-2026-03-11-description.md) — text description of the flow
+- [project-flow-2026-03-11.html](examples/project-flow-2026-03-11.html) — full pipeline diagram
+- [project-flow-2026-03-11-description.md](examples/project-flow-2026-03-11-description.md) — text description of the flow
