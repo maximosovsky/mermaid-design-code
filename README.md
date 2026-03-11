@@ -1,19 +1,19 @@
 # 📐 Mermaid Design Code
 
-**Create beautiful, consistent Mermaid diagrams in HTML**
-
 [![Live Example](https://img.shields.io/badge/example-GitHub_Pages-81D8D0?style=for-the-badge)](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-A design code standard for interactive Mermaid diagrams: pastel color palette, dark/light theme, zoom/pan controls, paired description files.
+**Create beautiful, consistent Mermaid diagrams in HTML**
 
-**Mermaid v11 · Google Fonts · Zero frameworks**
+> A design code is not a library or a tool. It's a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
 
 [Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Examples](#-examples) · [Guidelines](mermaid-guidelines.md)
 
 ---
 
-> A design code is not a library or a tool. It's a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
+## 💡 Concept
+
+Mermaid Design Code defines a single standard for interactive Mermaid diagrams: pastel color palette with classDef tokens, dark/light theme with localStorage persistence, zoom/pan controls, and paired description files. Every diagram is a pair — an `.html` with interactive controls and a `-description.md` with a text walkthrough.
 
 ---
 
@@ -91,6 +91,9 @@ fill:#fffbeb, stroke:#f59e0b, stroke-width:2px, color:#000
 | Icons | [site-design/icons/](https://github.com/maximosovsky/site-design/tree/master/icons) (moon.svg, sun.svg) |
 | Zoom | Vanilla JS (wheel + drag) |
 
+<details>
+<summary>📁 Project Structure</summary>
+
 ```
 mermaid-design-code/
 ├── mermaid-guidelines.md              # design code standard
@@ -103,6 +106,8 @@ mermaid-design-code/
 ├── LICENSE
 └── .gitignore
 ```
+
+</details>
 
 ---
 
@@ -135,4 +140,4 @@ Fork → `feature/name` → PR
 
 ## 📄 License
 
-[Maxim Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under MIT.
+[Maxim Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under [MIT](LICENSE).
