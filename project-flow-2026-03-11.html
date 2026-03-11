@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Flow — 100star — 2026-03-11</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f0f1a;
+            --text: #e0e0e0;
+            --accent: #6078ff;
+            --card-bg: #1a1a2e;
+            --border: #2a2a40;
+            --muted: #888;
+            --zoom-bg: #1a1a2e;
+            --zoom-border: #333;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f7;
+            --text: #33334f;
+            --accent: #6078ff;
+            --card-bg: #fff;
+            --border: #e2e4ef;
+            --muted: #767ead;
+            --zoom-bg: #fff;
+            --zoom-border: #ccc;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            flex-shrink: 0;
+            gap: 16px;
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .legend {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            flex-wrap: wrap;
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot.idea { background: #818cf8; }
+        .dot.auth { background: #3b82f6; }
+        .dot.ui { background: #8b5cf6; }
+        .dot.layout { background: #14b8a6; }
+        .dot.seo { background: #8b5cf6; border: 2px solid #6078ff; }
+        .dot.security { background: #ef4444; }
+        .dot.deploy { background: #3b82f6; border: 2px solid #22c55e; }
+        .dot.release { background: #22c55e; }
+        .dot.service { background: #999; }
+        .dot.api { background: #06b6d4; }
+        .dot.repo { background: #94a3b8; }
+        .dot.distrib { background: #ec4899; }
+        .dot.monitor { background: #06b6d4; border: 2px solid #818cf8; }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle:hover { transform: scale(1.15); }
+        .theme-toggle img { width: 24px; height: 24px; }
+
+        .theme-toggle .icon-moon {
+            filter: brightness(0) saturate(100%) invert(84%) sepia(60%) saturate(600%) hue-rotate(5deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun {
+            filter: brightness(0) saturate(100%) invert(75%) sepia(90%) saturate(500%) hue-rotate(360deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+        .diagram-container {
+            flex: 1;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            position: relative;
+            cursor: grab;
+        }
+
+        .diagram-container:active { cursor: grabbing; }
+
+        #diagram-inner {
+            transform-origin: 0 0;
+            position: absolute;
+            padding: 32px;
+        }
+
+        .diagram-container .mermaid { min-width: max-content; }
+
+        .zoom-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .zoom-controls button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--zoom-border);
+            border-radius: 6px;
+            background: var(--zoom-bg);
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .zoom-controls button:hover { opacity: 0.8; }
+
+        .zoom-info {
+            font-size: 11px;
+            color: var(--muted);
+            min-width: 36px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <h1>&#x1F504; Project Flow</h1>
+        <div class="legend">
+            <span><i class="dot idea"></i> Idea</span>
+            <span><i class="dot auth"></i> Auth</span>
+            <span><i class="dot ui"></i> UI</span>
+            <span><i class="dot layout"></i> Layout</span>
+            <span><i class="dot seo"></i> SEO</span>
+            <span><i class="dot security"></i> Security</span>
+            <span><i class="dot repo"></i> Repo</span>
+            <span><i class="dot deploy"></i> Deploy</span>
+            <span><i class="dot release"></i> Release</span>
+            <span><i class="dot service"></i> Service</span>
+            <span><i class="dot api"></i> API</span>
+            <span><i class="dot distrib"></i> Distrib</span>
+            <span><i class="dot monitor"></i> Monitor</span>
+        </div>
+        <div class="top-bar-right">
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                <img class="icon-moon" src="../site-design/icons/moon.svg" alt="Dark">
+                <img class="icon-sun" src="../site-design/icons/sun.svg" alt="Light">
+            </button>
+        </div>
+    </div>
+
+    <div class="diagram-container" id="diagramContainer">
+        <div class="zoom-controls">
+            <button id="zoomOut" title="Zoom Out">&minus;</button>
+            <span class="zoom-info" id="zoomLevel">100%</span>
+            <button id="zoomIn" title="Zoom In">+</button>
+            <button id="zoomFit" title="Fit">&#x22A1;</button>
+        </div>
+        <div id="diagram-inner">
+            <pre class="mermaid">
+graph TB
+    %% ============================================================
+    %% 1. IDEA  →  2. PLANNING  →  3. TERMINAL
+    %% ============================================================
+    IDEA["&#x1F4A1; Idea"]
+
+    subgraph PLANNING["&#x1F4D0; Planning"]
+        direction LR
+        ARCH_MD["ARCHITECTURE.md"]
+        MERMAID_DIAG["mermaid-diagram.html"]
+        IMPL_PLAN["implementation_plan.md"]
+    end
+
+    TERMINAL["&#x1F4BB; Terminal<br/>100star-init.ps1<br/>project scaffold"]
+
+    IDEA --> PLANNING
+    PLANNING --> TERMINAL
+
+    %% ============================================================
+    %% 3a. SITE-DECOR (between Planning and Front-end)
+    %% ============================================================
+    subgraph SITE_DECOR["&#x1F3A8; Site-decor"]
+        direction LR
+        FAVICON["favicon.svg / .ico"]
+        OG_IMAGE["og-image<br/>1200×630"]
+        COVER_DEVTO["cover Dev.to<br/>1000×420"]
+        COVER_GH["cover GitHub<br/>repo"]
+        LOGO["logo.png"]
+    end
+
+    TERMINAL --> SITE_DECOR
+    SITE_DECOR --> FRONTEND
+
+    %% ============================================================
+    %% 4. FRONT-END
+    %% ============================================================
+    subgraph FRONTEND["&#x1F3A8; Front-end"]
+        direction TB
+
+        subgraph AUTH["&#x1F511; Authentication"]
+            direction LR
+            GOOGLE_AUTH["Google Auth<br/>OAuth 2.0<br/>Rainbow border"]
+            GITHUB_AUTH["GitHub Auth<br/>OAuth<br/>github-24292f.svg"]
+        end
+
+        subgraph DESIGN_UI["&#x1F3A8; Design & UI"]
+            direction TB
+
+            subgraph DESIGN_TOKENS["Tokens & Fonts"]
+                direction LR
+                SITE_DESIGN["site-design/<br/>Lato 400/700 · Sora 700<br/>CSS Variables<br/>dark/light theme"]
+                COLORS["Colors<br/>Accent #6078ff<br/>Text #33334f<br/>Muted #999"]
+                ANIMATIONS["Animations<br/>0.2s buttons<br/>0.25s modals<br/>scale(1.2) icons"]
+            end
+
+            subgraph UI_ELEMENTS["UI Elements"]
+                direction LR
+                THEME_TOGGLE["&#x1F319;/&#x2600;&#xFE0F; Theme<br/>site-design/icons/<br/>moon.svg / sun.svg<br/>data-theme attr"]
+                SOCIAL_ICONS["Social Icons<br/>site-design/icons/<br/>25 SVG<br/>gray #999 → brand hover"]
+                EXTERNAL_ARROWS["External Links<br/>SVG arrows<br/>currentColor"]
+                WELCOME_MODAL["Welcome Modal<br/>first-visit popup"]
+            end
+
+            subgraph LAYOUT_BLK["Layout"]
+                direction LR
+                HEADER["Header<br/>Logo + Nav + Theme<br/>clamp(16px, 5vw, 24px)"]
+                HERO["Hero Section<br/>Text + Image<br/>Badge pill shape"]
+                FEATURES["Features<br/>3 cards desktop<br/>stack mobile"]
+                FOOTER["Footer<br/>Text + Social<br/>gray #999"]
+            end
+        end
+
+        subgraph LANDING_SEO["&#x1F50D; SEO & Optimization"]
+            direction LR
+            SEO["SEO<br/>title · meta · OG<br/>twitter:card · canonical<br/>JSON-LD<br/>sitemap · robots<br/>Search Console"]
+            PWA["PWA<br/>manifest.json<br/>Service Worker<br/>favicon set"]
+            PERF["Performance<br/>Core Web Vitals<br/>Mobile-first @768px<br/>clamp() sizing"]
+        end
+    end
+
+    %% ============================================================
+    %% 5. GITHUB REPO — Public Face
+    %% ============================================================
+    subgraph REPO_PUBLIC["&#x1F419; GitHub Repo — Public Face"]
+        direction TB
+
+        subgraph REPO_DOCS["&#x1F4C4; Documentation"]
+            direction LR
+            README["README.md<br/>ARCHITECTURE.md<br/><a href='https://github.com/maximosovsky/readme-guidelines'>readme-guidelines</a>"]
+            ROADMAP["ROADMAP.md<br/>CHANGELOG.md"]
+            MANUAL["MANUAL.md"]
+        end
+
+        subgraph REPO_META["&#x1F4CE; Metadata"]
+            direction LR
+            LLMS["llms.txt<br/>llms-full.txt"]
+            LICENSE["LICENSE MIT<br/>.gitignore<br/>.npmignore"]
+            BADGES["README badges<br/>shields.io<br/><a href='file:///C:/100star/badge-check.ps1'>badge-check.ps1</a>"]
+        end
+    end
+
+    %% ============================================================
+    %% 6. BACK-END — Code + Infrastructure
+    %% ============================================================
+    subgraph BACKEND["&#x2699;&#xFE0F; Back-end — Code & Infrastructure"]
+        direction TB
+
+        subgraph CODE_BLK["&#x1F4BB; Source Code"]
+            direction LR
+            SRC["src/ · lib/ · api/<br/>package.json"]
+            CLI["bin/cli.js<br/>Commander.js"]
+            TESTS["tests/<br/>lint · audit"]
+        end
+
+        subgraph SECURITY_BLK["&#x1F512; Security"]
+            direction LR
+            SEC_ENV[".env · safe-push<br/>npm audit<br/>.env.example"]
+            SEC_PIN["pin versions<br/>.npmignore"]
+        end
+
+        subgraph DEPLOY_BLK["&#x1F680; Deploy"]
+            direction LR
+            VERCEL["Vercel<br/>Hobby free<br/>100GB bw/mo<br/>10s timeout"]
+            GH_PAGES["GitHub Pages<br/>500MB · free"]
+            ALIBABA["Alibaba ECS<br/>Singapore<br/>$1.6/mo stopped"]
+            DOMAIN["*.osovsky.com<br/>GoDaddy"]
+        end
+
+        subgraph CICD_BLK["&#x2699;&#xFE0F; CI/CD"]
+            direction LR
+            CICD_ACTIONS["GitHub Actions<br/>Auto-deploy"]
+            CICD_LINT["Lint · test · badges"]
+            README_LINT["readme-lint.yml"]
+        end
+
+        subgraph RELEASE_BLK["&#x1F4E6; Release"]
+            direction LR
+            NPM_PUBLISH["npm publish<br/>npx project-name"]
+            GH_RELEASE["GitHub Release<br/>tag · changelog"]
+        end
+
+        subgraph SERVICES["&#x1F50C; Services"]
+            direction LR
+            CLOUDFLARE["Cloudflare<br/>DNS + SSL<br/>R2 10GB free"]
+            RESEND["Resend<br/>Email 100/day"]
+            REDIS["Upstash Redis<br/>10K cmd/day"]
+        end
+
+        subgraph API_BLK["&#x1F4E1; API"]
+            direction LR
+            GH_ACTIONS["GitHub Actions<br/>CI/CD<br/>∞ min public"]
+            GA4["GA4<br/>Analytics<br/>14 mo retention"]
+            GEMINI["Gemini 2.5 Flash<br/>AI API"]
+        end
+    end
+
+    %% ============================================================
+    %% 8. AUTOPOSTING DASHBOARD
+    %% ============================================================
+    subgraph AUTOPOSTING["&#x1F4E1; Autoposting Dashboard<br/>avtoposting/"]
+        direction TB
+
+        subgraph LAUNCH["&#x1F680; Publishing"]
+            direction LR
+
+            subgraph DEVTO_BLK["&#x1F4DD; Dev.to"]
+                direction TB
+                DEVTO_ARTICLE["Dev.to Article<br/><a href='file:///C:/100star/avtoposting/write-article-workflow.md'>write-article-workflow</a><br/>Hook → Research → Write<br/>Cover 1000×420"]
+                DEVTO_CHECKLIST["Checklist<br/>no Russian text<br/>no real IPs/keys<br/>raw.githubusercontent images"]
+            end
+
+            PH["Product Hunt &#x1F680;"]
+            HN["Hacker News &#x1F7E0;"]
+        end
+
+        subgraph CHANNELS["&#x1F4E2; Distribution Channels"]
+            direction LR
+            AP_MASTODON["Mastodon<br/>mastodon.social"]
+            AP_BLUESKY["Bluesky"]
+            AP_THREADS["Threads"]
+            REDDIT["Reddit"]
+            LINKEDIN["LinkedIn + X"]
+            TELEGRAM["Telegram"]
+        end
+
+        subgraph AP_ENGINE["&#x2699;&#xFE0F; Engine"]
+            direction LR
+            AP_DEVTO["Dev.to API<br/>articles.json"]
+            AP_SYNC["sync-articles.ps1<br/>Redis sync"]
+            AP_MODAL["modal.js<br/>Preview → Publish"]
+            AP_RENDER["render.js<br/>Calendar grid"]
+        end
+    end
+
+    %% 9. MONITOR
+    subgraph MONITOR_BLK["&#x1F4CA; Monitoring"]
+        direction LR
+        MORNING_RPT["morning-report.ps1"]
+        GH_TRAFFIC["GitHub Traffic"]
+        NPM_DOWNLOADS["npm downloads"]
+        GA4_TG["GA4 → TG alerts"]
+    end
+
+    %% ============================================================
+    %% CONNECTIONS
+    %% ============================================================
+
+    %% 3. Terminal → containers (Site-decor→Frontend is above)
+    TERMINAL --> BACKEND
+    TERMINAL --> REPO_PUBLIC
+
+    %% 5. Repo ↔ Planning (same doc)
+    REPO_PUBLIC -.- ARCH_MD
+
+    %% 4. Front-end internal — vertical order
+    AUTH --> DESIGN_UI
+    DESIGN_UI --> LANDING_SEO
+
+    %% 4. Design dependencies (dotted)
+    SITE_DESIGN -.- HEADER
+    SITE_DESIGN -.- FOOTER
+    SITE_DESIGN -.- THEME_TOGGLE
+    SOCIAL_ICONS -.- FOOTER
+
+    %% 5→6. Repo → Back-end
+    REPO_PUBLIC --> BACKEND
+    README -.- SRC
+
+    %% 6. Back-end internal — vertical flow
+    CODE_BLK --> SECURITY_BLK
+    SECURITY_BLK --> DEPLOY_BLK
+    DEPLOY_BLK --> CICD_BLK
+    CICD_BLK --> RELEASE_BLK
+    RELEASE_BLK --> SERVICES
+    SERVICES --> API_BLK
+    GH_ACTIONS -.- VERCEL
+    CICD_ACTIONS -.- VERCEL
+
+    %% 7. Cross-connections (dotted)
+    LANDING_SEO -. "deploy" .-> VERCEL
+    LANDING_SEO -. "deploy" .-> GH_PAGES
+    SEO -. "analytics" .-> GA4
+    GOOGLE_AUTH -. "OAuth" .-> SERVICES
+
+    %% 8. Into Autoposting
+    FRONTEND --> AUTOPOSTING
+    BACKEND --> AUTOPOSTING
+    LAUNCH --> CHANNELS
+    AP_ENGINE --> CHANNELS
+    DEVTO_ARTICLE -.- AP_DEVTO
+
+    %% 9. Autoposting → Monitor
+    AUTOPOSTING --> MONITOR_BLK
+
+    %% ============================================================
+    %% STYLING — pastel palette (mermaid-guidelines)
+    %% ============================================================
+    classDef idea fill:#f5f3ff,stroke:#818cf8,stroke-width:3px,color:#000
+    classDef terminal fill:#f0fdf4,stroke:#22c55e,stroke-width:3px,color:#000
+    classDef clrAuth fill:#eff6ff,stroke:#3b82f6,color:#000
+    classDef clrUI fill:#f5f3ff,stroke:#8b5cf6,color:#000
+    classDef clrLayout fill:#f0fdfa,stroke:#14b8a6,color:#000
+    classDef clrLanding fill:#f5f3ff,stroke:#6078ff,color:#000
+    classDef clrSEO fill:#f5f3ff,stroke:#8b5cf6,color:#000
+    classDef clrDeploy fill:#eff6ff,stroke:#3b82f6,color:#000
+    classDef clrService fill:#fff,stroke:#999,color:#000,stroke-dasharray:5 5
+    classDef clrAPI fill:#ecfeff,stroke:#06b6d4,color:#000
+    classDef clrRepo fill:#f8fafc,stroke:#94a3b8,color:#000
+    classDef clrDistrib fill:#fdf2f8,stroke:#ec4899,color:#000
+    classDef clrMonitor fill:#ecfeff,stroke:#06b6d4,color:#000
+    classDef clrSecurity fill:#fef2f2,stroke:#ef4444,color:#000
+    classDef clrRelease fill:#f0fdf4,stroke:#22c55e,color:#000
+    classDef codeBox fill:#6366f1,stroke:#818cf8,stroke-width:3px,color:#fff,font-size:16px
+
+    %% Node assignments
+    class IDEA idea
+    class TERMINAL terminal
+    class ARCH_MD,MERMAID_DIAG,IMPL_PLAN clrRepo
+    class GOOGLE_AUTH,GITHUB_AUTH clrAuth
+    class THEME_TOGGLE,SOCIAL_ICONS,EXTERNAL_ARROWS,WELCOME_MODAL clrUI
+    class HEADER,HERO,FEATURES,FOOTER clrLayout
+    class SITE_DESIGN,COLORS,ANIMATIONS clrLanding
+    class SEO,PERF clrSEO
+    class PWA clrLanding
+    class README,ROADMAP,MANUAL clrRepo
+    class LLMS,LICENSE,BADGES clrRepo
+    class SRC codeBox
+    class CLI,TESTS clrAPI
+    class SEC_ENV,SEC_PIN clrSecurity
+    class FAVICON,OG_IMAGE,COVER_DEVTO,COVER_GH,LOGO clrLanding
+    class VERCEL,GH_PAGES,ALIBABA,DOMAIN clrDeploy
+    class CICD_ACTIONS,CICD_LINT,README_LINT clrAPI
+    class NPM_PUBLISH,GH_RELEASE clrRelease
+    class CLOUDFLARE,RESEND,REDIS clrService
+    class GH_ACTIONS,GA4,GEMINI clrAPI
+    class DEVTO_ARTICLE,DEVTO_CHECKLIST clrDistrib
+    class PH,HN,REDDIT,LINKEDIN,TELEGRAM clrDistrib
+    class AP_DEVTO,AP_MASTODON,AP_BLUESKY,AP_THREADS clrAPI
+    class AP_SYNC,AP_MODAL,AP_RENDER clrUI
+    class MORNING_RPT,GH_TRAFFIC,NPM_DOWNLOADS,GA4_TG clrMonitor
+
+    %% Outer subgraph — warm yellow containers
+    style FRONTEND fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style REPO_PUBLIC fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style BACKEND fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style AUTOPOSTING fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style PLANNING fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style SITE_DECOR fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style MONITOR_BLK fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+            </pre>
+        </div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Theme
+        var saved = localStorage.getItem('flow-theme');
+        if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('themeToggle').onclick = function () {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+            localStorage.setItem('flow-theme', isLight ? 'dark' : 'light');
+        };
+
+        // Mermaid
+        var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        mermaid.initialize({
+            theme: isDark ? 'dark' : 'default',
+            themeVariables: isDark ? {
+                primaryColor: '#1a1a2e', primaryTextColor: '#e0e0e0',
+                primaryBorderColor: '#6078ff', lineColor: '#888',
+                secondaryColor: '#2a2a40', tertiaryColor: '#0f0f1a',
+                clusterBkg: '#1a1a2e', clusterBorder: '#2a2a40',
+                edgeLabelBackground: '#1a1a2e'
+            } : {
+                primaryColor: '#ffffff', primaryTextColor: '#000',
+                primaryBorderColor: '#d1d5db', lineColor: '#aaa',
+                secondaryColor: '#f9fafb', tertiaryColor: '#f3f4f6',
+                clusterBkg: '#fafafa', clusterBorder: '#e2e4ef',
+                edgeLabelBackground: '#fff',
+                nodeBorder: '#d1d5db', mainBkg: '#ffffff',
+                nodeTextColor: '#000', clusterTextColor: '#000'
+            },
+            flowchart: { curve: 'basis', padding: 14, nodeSpacing: 30, rankSpacing: 55 },
+            fontSize: 11,
+            fontFamily: 'Lato, sans-serif'
+        });
+
+        // Pan + Zoom
+        var container = document.getElementById('diagramContainer');
+        var inner = document.getElementById('diagram-inner');
+        var zoomLabel = document.getElementById('zoomLevel');
+        var scale = 1, panX = 0, panY = 0;
+        var baseScale = 1;
+        var isDragging = false, dragStartX, dragStartY, startPanX, startPanY;
+
+        function applyTransform() {
+            inner.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+            zoomLabel.textContent = Math.round((scale / baseScale) * 100) + '%';
+        }
+
+        function initZoom() {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            var fitScale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            scale = fitScale * 4;
+            baseScale = scale;
+            panX = 20;
+            panY = 20;
+            applyTransform();
+        }
+
+        setTimeout(initZoom, 500);
+        setTimeout(initZoom, 1500);
+
+        container.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.92 : 1.08;
+            var rect = container.getBoundingClientRect();
+            var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+            var newScale = scale * delta;
+            panX = mx - (mx - panX) * (newScale / scale);
+            panY = my - (my - panY) * (newScale / scale);
+            scale = newScale;
+            applyTransform();
+        }, { passive: false });
+
+        container.addEventListener('mousedown', function (e) {
+            isDragging = true;
+            dragStartX = e.clientX; dragStartY = e.clientY;
+            startPanX = panX; startPanY = panY;
+        });
+        window.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            panX = startPanX + (e.clientX - dragStartX);
+            panY = startPanY + (e.clientY - dragStartY);
+            applyTransform();
+        });
+        window.addEventListener('mouseup', function () { isDragging = false; });
+
+        document.getElementById('zoomIn').onclick = function () { scale *= 1.25; applyTransform(); };
+        document.getElementById('zoomOut').onclick = function () { scale *= 0.75; applyTransform(); };
+        document.getElementById('zoomFit').onclick = function () {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            scale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            panX = (cw - sw * scale) / 2;
+            panY = (ch - sh * scale) / 2;
+            applyTransform();
+        };
+    </script>
+
+</body>
+
+</html>
