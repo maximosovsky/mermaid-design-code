@@ -2,21 +2,21 @@
 
 # 📐 Mermaid Design Code
 
-![Mermaid](https://img.shields.io/badge/Mermaid-FF3670?style=for-the-badge&logo=mermaid&logoColor=white)
-![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
+**Create beautiful, consistent Mermaid diagrams in HTML**
 
-**Design code standard for interactive Mermaid diagrams in HTML**
+[![Live Example](https://img.shields.io/badge/example-GitHub_Pages-81D8D0?style=for-the-badge)](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-[Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#️-tech-stack) · [Guidelines](mermaid-guidelines.md) · [Examples](examples/)
+A design code standard for interactive Mermaid diagrams: pastel color palette, dark/light theme, zoom/pan controls, paired description files.
+
+**Mermaid v11 · Google Fonts · Zero frameworks**
 
 </div>
 
 ---
 
-> Every Mermaid diagram in the 100star workspace follows one standard: consistent fonts, colors, zoom/pan, dark/light theme, and a paired description file. This repo is that standard.
+> [!NOTE]
+> This is not a library or a tool. It's a **design code** — a set of rules, tokens, and examples that ensure every Mermaid diagram looks and behaves the same way.
 
 ---
 
@@ -36,20 +36,20 @@
 
 ## 🚀 Quick Start
 
-1. Read the [mermaid-guidelines.md](mermaid-guidelines.md)
+1. Read [mermaid-guidelines.md](mermaid-guidelines.md)
 2. Create a pair of files:
    ```
    <name>-<YYYY-MM-DD>.html          # interactive diagram
    <name>-<YYYY-MM-DD>-description.md # text walkthrough
    ```
-3. Follow the pastel `classDef` palette
+3. Use the pastel `classDef` palette from the guidelines
 4. Run the pre-save checklist before committing
 
 <details>
 <summary>📋 Pre-save Checklist</summary>
 
 - [ ] All `==>` replaced with `-->`
-- [ ] No orphan nodes (every ID used in a subgraph or connection)
+- [ ] No orphan nodes (every ID in a subgraph or connection)
 - [ ] Emoji via HTML entities, not Unicode
 - [ ] `direction` specified in every subgraph
 - [ ] classDef assigned to every node
@@ -60,28 +60,48 @@
 
 </details>
 
+<details>
+<summary>🎨 Color Palette</summary>
+
+```mermaid
+classDef clrAuth    fill:#eff6ff,stroke:#3b82f6,color:#000
+classDef clrUI      fill:#f5f3ff,stroke:#8b5cf6,color:#000
+classDef clrLayout  fill:#f0fdfa,stroke:#14b8a6,color:#000
+classDef clrDeploy  fill:#eff6ff,stroke:#3b82f6,color:#000
+classDef clrService fill:#fff,stroke:#999,color:#000,stroke-dasharray:5 5
+classDef clrAPI     fill:#ecfeff,stroke:#06b6d4,color:#000
+classDef clrRepo    fill:#f8fafc,stroke:#94a3b8,color:#000
+classDef clrDistrib fill:#fdf2f8,stroke:#ec4899,color:#000
+classDef codeBox    fill:#6366f1,stroke:#818cf8,stroke-width:3px,color:#fff
+```
+
+**Outer subgraphs** (yellow containers):
+```css
+fill:#fffbeb, stroke:#f59e0b, stroke-width:2px, color:#000
+```
+
+</details>
+
 ---
 
 ## 🏗️ Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Diagrams | Mermaid v11 (CDN ESM) |
-| Fonts | Google Fonts: Sora, Lato |
+| Diagrams | [Mermaid v11](https://mermaid.js.org/) (CDN ESM) |
+| Fonts | [Google Fonts](https://fonts.google.com/): Sora, Lato |
 | Theme | CSS Variables + `data-theme` attribute |
 | Icons | `site-design/icons/` (moon.svg, sun.svg) |
-| Zoom | Vanilla JS (wheel + mousedown/mousemove) |
-
-### File Tree
+| Zoom | Vanilla JS (wheel + drag) |
 
 ```
 mermaid-design-code/
-├── mermaid-guidelines.md                  # design code standard
+├── mermaid-guidelines.md              # design code standard
 ├── examples/
-│   ├── project-flow-2026-03-11.html      # example: project lifecycle pipeline
-│   └── project-flow-2026-03-11-description.md # example: text description
-├── llms.txt                               # LLM short context
-├── llms-full.txt                          # LLM full context
+│   ├── project-flow-2026-03-11.html   # example diagram
+│   └── project-flow-2026-03-11-description.md
+├── llms.txt
+├── llms-full.txt
 ├── README.md
 ├── LICENSE
 └── .gitignore
@@ -92,9 +112,10 @@ mermaid-design-code/
 ## 🗺️ Roadmap
 
 - [x] Mermaid guidelines document
-- [x] Example diagram (project-flow)
+- [x] Example diagram (project lifecycle pipeline)
 - [x] Example description
-- [x] LLM-ready docs (llms.txt + llms-full.txt)
+- [x] LLM-ready docs
+- [x] GitHub Pages for live example
 - [ ] More example diagrams
 - [ ] Diagram template generator
 

@@ -1,6 +1,6 @@
-# Mermaid Diagram Guidelines — 100star
+# Mermaid Diagram Guidelines
 
-> Standard for creating Mermaid diagrams in HTML across 100star projects.
+> Standard for creating Mermaid diagrams in HTML.
 
 ## File Structure
 

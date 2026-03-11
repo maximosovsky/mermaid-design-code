@@ -1,8 +1,17 @@
 # Mermaid Design Code
 
-> Design code standard for interactive Mermaid diagrams in HTML
+> Design code standard for interactive Mermaid diagrams in HTML. Pastel palette, dark/light theme, zoom/pan, paired description files.
+
+## About
+
+Mermaid Design Code is a set of rules, tokens, and examples for creating consistent Mermaid diagrams in HTML. Covers typography (Sora 700 + Lato 400/700), pastel classDef palette, dark/light theme with localStorage, zoom/pan controls, and file naming conventions. Every diagram is a pair: an interactive `.html` and a `-description.md` walkthrough.
+
+- Author: [Max Osovsky](https://www.linkedin.com/in/osovsky/)
+- URL: https://maximosovsky.github.io/mermaid-design-code/
+- License: MIT
 
 ## Docs
-- [Guidelines](https://github.com/maximosovsky/mermaid-design-code/blob/main/mermaid-guidelines.md)
-- [Example Diagram](https://github.com/maximosovsky/mermaid-design-code/blob/main/project-flow-2026-03-11.html)
-- [Example Description](https://github.com/maximosovsky/mermaid-design-code/blob/main/project-flow-2026-03-11-description.md)
+
+- [Full documentation](https://raw.githubusercontent.com/maximosovsky/mermaid-design-code/main/llms-full.txt): Complete guidelines, color palette, and checklist
+- [Guidelines](https://github.com/maximosovsky/mermaid-design-code/blob/main/mermaid-guidelines.md): Full design code standard
+- [Example](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html): Live diagram

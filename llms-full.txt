@@ -1,49 +1,124 @@
-# Mermaid Design Code — Full Context
+# Mermaid Design Code — Full Documentation
 
 ## Overview
-Design code standard for creating interactive Mermaid diagrams in HTML across 100star projects. Every diagram follows one standard: consistent fonts, colors, zoom/pan, dark/light theme, and a paired description file.
 
-## Stack
-- Mermaid v11 via CDN ESM
-- Google Fonts: Sora 700 (headings), Lato 400/700 (body)
-- CSS Variables for dark/light theme
-- Vanilla JS zoom/pan with fit-to-view
-- localStorage for theme persistence
+Mermaid Design Code is a design code standard for creating interactive Mermaid diagrams in HTML. It defines typography, color palette, theme system, zoom/pan controls, file structure, and a pre-save checklist.
 
 ## File Structure
-Every diagram is a pair of files:
-- `<name>-<YYYY-MM-DD>.html` — interactive diagram (HTML + Mermaid)
-- `<name>-<YYYY-MM-DD>-description.md` — text walkthrough
 
-## Key Rules
-- Arrows: `-->` for flow, `-.-` for dependencies, never `==>`
-- Node style: pastel fill + colored stroke + `color:#000`
-- Services: dashed border (`stroke-dasharray:5 5`)
-- Subgraphs: outer = warm yellow (#fffbeb), inner = gray (clusterBkg)
-- Emoji: HTML entities only (`&#x1F3A8;`), not Unicode
-- Theme: always specify themeVariables for BOTH dark and light modes
+Every diagram is a pair of files with creation date in the filename:
+- `<name>-<YYYY-MM-DD>.html` — interactive diagram with zoom/pan, theme toggle, legend
+- `<name>-<YYYY-MM-DD>-description.md` — text walkthrough explaining blocks, flow, and connections
 
-## Node Color Palette (classDef)
-- Auth: fill:#eff6ff, stroke:#3b82f6
-- UI: fill:#f5f3ff, stroke:#8b5cf6
-- Layout: fill:#f0fdfa, stroke:#14b8a6
-- Deploy: fill:#eff6ff, stroke:#3b82f6
-- Service: fill:#fff, stroke:#999 (dashed)
-- API: fill:#ecfeff, stroke:#06b6d4
-- Repo: fill:#f8fafc, stroke:#94a3b8
-- Distribution: fill:#fdf2f8, stroke:#ec4899
-- Code: fill:#6366f1, stroke:#818cf8 (bold)
+## Typography
+
+- Headings: Sora 700 (Google Fonts)
+- Body: Lato 400/700 (Google Fonts)
+- Font size: 11px in Mermaid config
+- Font family: `Lato, sans-serif`
+
+## Theme System
+
+- Default: light mode
+- Toggle: moon.svg / sun.svg icons from `site-design/icons/`
+- Persistence: `localStorage`
+- CSS: `:root` (dark) and `[data-theme="light"]` variables
+- Mermaid: `themeVariables` must be specified for BOTH dark and light modes
+
+### Dark Mode Variables
+- primaryColor: `#1a1a2e`
+- clusterBkg: `#1a1a2e`
+- clusterBorder: `#2a2a40`
+- lineColor: `#888`
+
+### Light Mode Variables
+- primaryColor: `#ffffff`
+- clusterBkg: `#fafafa`
+- clusterBorder: `#e2e4ef`
+- lineColor: `#aaa`
+- nodeTextColor: `#000`
+
+## Color Palette (classDef)
+
+All nodes use: light pastel fill + colored stroke + `color:#000`.
+
+| Category | Fill | Stroke |
+|----------|------|--------|
+| Auth | `#eff6ff` | `#3b82f6` |
+| UI | `#f5f3ff` | `#8b5cf6` |
+| Layout | `#f0fdfa` | `#14b8a6` |
+| Deploy | `#eff6ff` | `#3b82f6` |
+| Service | `#fff` | `#999` (dashed) |
+| API | `#ecfeff` | `#06b6d4` |
+| Repo | `#f8fafc` | `#94a3b8` |
+| Distribution | `#fdf2f8` | `#ec4899` |
+| Code | `#6366f1` | `#818cf8` (bold, white text) |
+
+### Subgraph Hierarchy
+- Outer subgraphs: `fill:#fffbeb, stroke:#f59e0b` (warm yellow)
+- Inner subgraphs: `clusterBkg` from themeVariables (gray)
+- Nodes: pastel classDef (above)
+
+## Arrows
+
+| Type | Syntax | Usage |
+|------|--------|-------|
+| Regular | `A --> B` | Main flow |
+| Dotted | `A -.- B` | Dependency without flow |
+| Dotted with text | `A -. "text" .-> B` | Annotated dependency |
+| Never use | `A ==> B` | Too thick/heavy |
+
+## Zoom & Pan
+
+- Scroll = zoom (wheel event with preventDefault)
+- Drag = pan (mousedown/mousemove/mouseup)
+- Buttons: `−`, `%`, `+`, `⊡` (fit)
+- Default scale: `baseScale` value where label shows 100%
+- Scale rule: one subgraph block fills ~30% of screen width with readable text
+- Formula: `Math.round((scale / baseScale) * 100) + '%'`
+
+## Legend
+
+Every diagram must have a legend in the toolbar. Dot colors match classDef strokes.
+
+## Emoji
+
+Always use HTML entities, not Unicode:
+- `&#x1F4A1;` (💡), `&#x1F3A8;` (🎨), `&#x1F511;` (🔑)
+- `&#x2699;` (⚙️), `&#x1F680;` (🚀), `&#x1F50D;` (🔍)
+
+## Links Inside Nodes
+
+```
+NODE["Text<br/><a href='https://url'>label</a>"]
+NODE["Text<br/><a href='file:///C:/path'>local file</a>"]
+```
 
 ## Pre-save Checklist
-- No `==>` arrows (use `-->`)
-- No orphan nodes
-- Emoji via HTML entities
-- `direction` in every subgraph
-- classDef assigned to every node
-- Dark/light theme works
-- Zoom/pan works
-- Fit button works
-- Creation date present
 
-## Full Guidelines
-See mermaid-guidelines.md for complete reference with code examples.
+1. All `==>` replaced with `-->`
+2. No orphan nodes (every ID used in a subgraph or connection)
+3. Emoji via HTML entities, not Unicode
+4. `direction` specified in every subgraph
+5. classDef assigned to every node
+6. Dark/light theme works
+7. Zoom/pan works
+8. Fit button fits diagram to screen
+9. Creation date present
+
+## Tech Stack
+
+- Mermaid v11 via CDN ESM: `https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs`
+- Google Fonts: Sora 700, Lato 400/700
+- CSS Variables for theming
+- Vanilla JS for zoom/pan
+- localStorage for theme persistence
+
+## Roadmap
+
+- [x] Guidelines document
+- [x] Example diagram (project lifecycle pipeline)
+- [x] LLM-ready docs
+- [x] GitHub Pages
+- [ ] More example diagrams
+- [ ] Diagram template generator
