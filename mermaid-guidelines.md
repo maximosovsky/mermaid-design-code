@@ -10,9 +10,10 @@ Every diagram is a **pair of files**: an interactive HTML and a text description
 
 ```
 mermaid-design-code/
-├── project-flow-2026-03-11.html              # interactive diagram (HTML + Mermaid)
-├── project-flow-2026-03-11-description.md    # text description of the flow
-└── mermaid-guidelines.md                      # this file (no date)
+├── mermaid-guidelines.md                  # design code standard (this file)
+├── examples/
+│   ├── project-flow-2026-03-11.html      # example diagram
+│   └── project-flow-2026-03-11-description.md
 ```
 
 - **`<name>-<YYYY-MM-DD>.html`** — the interactive Mermaid diagram with zoom/pan, theme toggle, legend
@@ -222,5 +223,5 @@ NODE["Text<br/><a href='file:///C:/path'>local file</a>"]
 
 ## Example Files
 
-- [project-flow-2026-03-11.html](file:///C:/100star/mermaid-design-code/project-flow-2026-03-11.html) — full pipeline diagram
-- [project-flow-2026-03-11-description.md](file:///C:/100star/mermaid-design-code/project-flow-2026-03-11-description.md) — text description of the flow
+- [project-flow-2026-03-11.html](file:///C:/100star/mermaid-design-code/examples/project-flow-2026-03-11.html) — full pipeline diagram
+- [project-flow-2026-03-11-description.md](file:///C:/100star/mermaid-design-code/examples/project-flow-2026-03-11-description.md) — text description of the flow

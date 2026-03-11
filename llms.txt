@@ -1,0 +1,8 @@
+# Mermaid Design Code
+
+> Design code standard for interactive Mermaid diagrams in HTML
+
+## Docs
+- [Guidelines](https://github.com/maximosovsky/mermaid-design-code/blob/main/mermaid-guidelines.md)
+- [Example Diagram](https://github.com/maximosovsky/mermaid-design-code/blob/main/project-flow-2026-03-11.html)
+- [Example Description](https://github.com/maximosovsky/mermaid-design-code/blob/main/project-flow-2026-03-11-description.md)

@@ -10,9 +10,11 @@
 
 **Design code standard for interactive Mermaid diagrams in HTML**
 
-[Guidelines](mermaid-guidelines.md) · [Example Diagram](project-flow-2026-03-11.html) · [Example Description](project-flow-2026-03-11-description.md)
+[Quick Start](#-quick-start) · [Features](#-features) · [Tech Stack](#️-tech-stack) · [Guidelines](mermaid-guidelines.md) · [Examples](examples/)
 
 </div>
+
+---
 
 > Every Mermaid diagram in the 100star workspace follows one standard: consistent fonts, colors, zoom/pan, dark/light theme, and a paired description file. This repo is that standard.
 
@@ -43,6 +45,21 @@
 3. Follow the pastel `classDef` palette
 4. Run the pre-save checklist before committing
 
+<details>
+<summary>📋 Pre-save Checklist</summary>
+
+- [ ] All `==>` replaced with `-->`
+- [ ] No orphan nodes (every ID used in a subgraph or connection)
+- [ ] Emoji via HTML entities, not Unicode
+- [ ] `direction` specified in every subgraph
+- [ ] classDef assigned to every node
+- [ ] Dark/light theme works
+- [ ] Zoom/pan works
+- [ ] Fit button fits diagram to screen
+- [ ] Creation date present
+
+</details>
+
 ---
 
 ## 🏗️ Tech Stack
@@ -60,40 +77,15 @@
 ```
 mermaid-design-code/
 ├── mermaid-guidelines.md                  # design code standard
-├── project-flow-2026-03-11.html          # example: project lifecycle pipeline
-├── project-flow-2026-03-11-description.md # example: text description
+├── examples/
+│   ├── project-flow-2026-03-11.html      # example: project lifecycle pipeline
+│   └── project-flow-2026-03-11-description.md # example: text description
+├── llms.txt                               # LLM short context
+├── llms-full.txt                          # LLM full context
 ├── README.md
 ├── LICENSE
 └── .gitignore
 ```
-
----
-
-## 📐 Guidelines Summary
-
-### Arrows
-| Type | Syntax | When |
-|------|--------|------|
-| Regular | `A --> B` | Main flow |
-| Dotted | `A -.- B` | Dependency without flow |
-| Dotted with text | `A -. "text" .-> B` | Annotated dependency |
-| **Never** | `A ==> B` | ❌ Too thick/heavy |
-
-### Node Colors (classDef)
-```mermaid
-classDef clrAuth    fill:#eff6ff,stroke:#3b82f6,color:#000
-classDef clrDeploy  fill:#eff6ff,stroke:#3b82f6,color:#000
-classDef clrService fill:#fff,stroke:#999,color:#000,stroke-dasharray:5 5
-classDef clrAPI     fill:#ecfeff,stroke:#06b6d4,color:#000
-classDef codeBox    fill:#6366f1,stroke:#818cf8,stroke-width:3px,color:#fff
-```
-
-### Outer Subgraphs
-```mermaid
-style FRONTEND fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
-```
-
-Full reference: [mermaid-guidelines.md](mermaid-guidelines.md)
 
 ---
 
@@ -102,10 +94,13 @@ Full reference: [mermaid-guidelines.md](mermaid-guidelines.md)
 - [x] Mermaid guidelines document
 - [x] Example diagram (project-flow)
 - [x] Example description
+- [x] LLM-ready docs (llms.txt + llms-full.txt)
 - [ ] More example diagrams
 - [ ] Diagram template generator
 
 ---
+
+<div align="center">
 
 ## 🤝 Contributing
 
@@ -115,4 +110,6 @@ Fork → `feature/name` → PR
 
 ## 📄 License
 
-MIT © [Max Osovsky](https://www.linkedin.com/in/osovsky/)
+MIT — [Max Osovsky](https://www.linkedin.com/in/osovsky/)
+
+</div>
