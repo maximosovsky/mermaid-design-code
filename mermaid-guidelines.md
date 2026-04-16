@@ -158,6 +158,19 @@ classDef codeBox    fill:#6366f1,stroke:#818cf8,stroke-width:3px,color:#fff
 **Rule:** light pastel `fill` + colored `stroke` + `color:#000`.
 Services use dashed border (`stroke-dasharray:5 5`).
 
+### Extended Styles (Notion Clean)
+Для некоторых диаграмм (особенно AI-схем, где важно показать чистую архитектуру без лишнего цветового шума) используется минималистичный монохромный стиль с одним акцентным цветом ("Notion Clean").
+
+**Правила Notion Clean:**
+- Использовать `Notion Base` класс для всех рядовых нодов (белый фон, нейтральный `stroke`).
+- Использовать акцентный цвет только для ключевых узлов потока (например, `Notion Accent` с тонким ярким border).
+- Стрелки потоковых данных выделяются тем же акцентным цветом: `linkStyle 0 stroke:#6366f1,stroke-width:2px;`
+
+```mermaid
+classDef clrNotionBase    fill:#ffffff,stroke:#e5e7eb,color:#000,stroke-width:2px
+classDef clrNotionAccent  fill:#f8fafc,stroke:#6366f1,color:#000,stroke-width:2px
+```
+
 ### Mermaid themeVariables
 
 > **IMPORTANT:** always specify themeVariables for BOTH modes. Omitting light mode variables will leave dark subgraph backgrounds.
@@ -202,6 +215,37 @@ mermaid.initialize({
 | `nodeTextColor` | `#000` | Black text inside nodes |
 | `mainBkg` | `#ffffff` | White node background |
 | `lineColor` | `#aaa` | Soft gray arrows |
+
+### Custom Shapes (Mermaid v11+)
+
+Use `@{ shape: ... }` syntax to render non-rectangular nodes:
+
+```mermaid
+user@{ shape: person, label: "👤 User" }
+owner@{ shape: person, label: "👨‍💻 Owner" }
+db@{ shape: cylinder, label: "🗄️ Database" }
+```
+
+| Shape | Syntax | Renders |
+|-------|--------|---------|
+| Person (человечек) | `id@{ shape: person, label: "👤 User" }` | Stick figure |
+| Cylinder (database) | `id@{ shape: cylinder, label: "DB" }` | Cylinder |
+| Stadium | `id@{ shape: stadium, label: "Text" }` | Rounded pill |
+| Hexagon | `id@{ shape: hex, label: "Text" }` | Hexagon |
+| Diamond | `id@{ shape: diamond, label: "Text" }` | Diamond |
+| Double circle | `id@{ shape: dbl-circ, label: "Text" }` | Double circle |
+| Notched rect | `id@{ shape: notch-rect, label: "Text" }` | Notched rectangle |
+| Lean right | `id@{ shape: lean-r, label: "Text" }` | Parallelogram → |
+| Lean left | `id@{ shape: lean-l, label: "Text" }` | Parallelogram ← |
+
+**AI/Agent Domain Vocabulary:**
+В AI-схемах (Multi-Agent, RAG, Mem0) придерживайтесь следующей семантики:
+- **Agent (Агент)**: `hex` (шестиугольник) `id@{ shape: hex, label: "🤖 Agent" }`
+- **LLM / Model**: `notch-rect` (прямоугольник с вырезом) или `dbl-circ`
+- **Vector Store (Память)**: `cylinder` (цилиндр) `id@{ shape: cylinder, label: "🗄️ Vector DB" }`
+- **Tool / Action**: `diamond` (ромб) `id@{ shape: diamond, label: "🛠️ Tool Call" }`
+
+**Note:** `classDef` works with custom shapes — use `class user myClass` as usual.
 
 ### Links Inside Nodes
 ```mermaid

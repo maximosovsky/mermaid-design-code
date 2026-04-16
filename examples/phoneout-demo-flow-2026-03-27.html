@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoneOut Demo Call Flow — 2026-03-27</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f0f1a;
+            --text: #e0e0e0;
+            --accent: #6078ff;
+            --card-bg: #1a1a2e;
+            --border: #2a2a40;
+            --muted: #888;
+            --zoom-bg: #1a1a2e;
+            --zoom-border: #333;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f7;
+            --text: #33334f;
+            --accent: #6078ff;
+            --card-bg: #fff;
+            --border: #e2e4ef;
+            --muted: #767ead;
+            --zoom-bg: #fff;
+            --zoom-border: #ccc;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            flex-shrink: 0;
+            gap: 16px;
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .legend {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            flex-wrap: wrap;
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot.demo { background: #3b82f6; }
+        .dot.twilio { background: #14b8a6; }
+        .dot.redis { background: #8b5cf6; }
+        .dot.bot { background: #ec4899; }
+        .dot.easter { background: #f59e0b; }
+        .dot.payment { background: #ef4444; }
+        .dot.service { background: #999; }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle:hover { transform: scale(1.15); }
+        .theme-toggle img { width: 24px; height: 24px; }
+
+        .theme-toggle .icon-moon {
+            filter: brightness(0) saturate(100%) invert(84%) sepia(60%) saturate(600%) hue-rotate(5deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun {
+            filter: brightness(0) saturate(100%) invert(75%) sepia(90%) saturate(500%) hue-rotate(360deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+        .diagram-container {
+            flex: 1;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            position: relative;
+            cursor: grab;
+        }
+
+        .diagram-container:active { cursor: grabbing; }
+
+        #diagram-inner {
+            transform-origin: 0 0;
+            position: absolute;
+            padding: 32px;
+        }
+
+        .diagram-container .mermaid { min-width: max-content; }
+
+        .zoom-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .zoom-controls button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--zoom-border);
+            border-radius: 6px;
+            background: var(--zoom-bg);
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .zoom-controls button:hover { opacity: 0.8; }
+
+        .zoom-info {
+            font-size: 11px;
+            color: var(--muted);
+            min-width: 36px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <h1>&#x260E;&#xFE0F; PhoneOut Demo Call Flow</h1>
+        <div class="legend">
+            <span><i class="dot demo"></i> Demo Check</span>
+            <span><i class="dot twilio"></i> Twilio Call</span>
+            <span><i class="dot redis"></i> Redis</span>
+            <span><i class="dot bot"></i> Bot Message</span>
+            <span><i class="dot easter"></i> Easter Egg</span>
+            <span><i class="dot payment"></i> Payment</span>
+            <span><i class="dot service"></i> Service</span>
+        </div>
+        <div class="top-bar-right">
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                <img class="icon-moon" src="https://raw.githubusercontent.com/maximosovsky/site-design/master/icons/moon.svg" alt="Dark">
+                <img class="icon-sun" src="https://raw.githubusercontent.com/maximosovsky/site-design/master/icons/sun.svg" alt="Light">
+            </button>
+        </div>
+    </div>
+
+    <div class="diagram-container" id="diagramContainer">
+        <div class="zoom-controls">
+            <button id="zoomOut" title="Zoom Out">&minus;</button>
+            <span class="zoom-info" id="zoomLevel">100%</span>
+            <button id="zoomIn" title="Zoom In">+</button>
+            <button id="zoomFit" title="Fit">&#x22A1;</button>
+        </div>
+        <div id="diagram-inner">
+            <pre class="mermaid">
+graph TB
+    %% ============================================================
+    %% START
+    %% ============================================================
+    START["&#x1F195; User opens /start"]
+
+    subgraph WELCOME_BLK["&#x1F44B; Welcome"]
+        direction TB
+        WELCOME["Bot sends greeting<br/>+ user name + avatar"]
+        BUTTONS["2 buttons:<br/>Call &#x1F1EB;&#x1F1F7; Louvre<br/>Call &#x1F1FA;&#x1F1F8; Rickroll"]
+        TIP["2s delay &#x2192; Tip:<br/>Send any phone number..."]
+    end
+
+    START --> WELCOME_BLK
+    WELCOME --> BUTTONS
+    BUTTONS --> TIP
+
+    %% ============================================================
+    %% LOUVRE CALLS
+    %% ============================================================
+    subgraph LOUVRE_BLK["&#x1F3DB;&#xFE0F; Louvre Calls"]
+        direction TB
+
+        L1["&#x260E;&#xFE0F; Call #1: +33140205317"]
+        L1_CHECK["demo_check<br/>used: 0 &lt; 2 &#x2192; free: true"]
+        L1_CALL["Twilio WebRTC call<br/>max 50s auto-cutoff"]
+        L1_USE["demo_use &#x2192; Redis INCR<br/>demo:+331... = 1<br/>demo:total = 1"]
+        L1_MSG["Bot: &#x260E;&#xFE0F; +33140205317<br/>&#x1F1EB;&#x1F1F7; France &#xB7; 0m48s &#xB7; 7&#x2B50;<br/>Balance: 0&#x2B50;<br/>Awesome! Free call &#x1F381;"]
+
+        L1 --> L1_CHECK
+        L1_CHECK --> L1_CALL
+        L1_CALL --> L1_USE
+        L1_USE --> L1_MSG
+
+        L2["&#x260E;&#xFE0F; Call #2: +33140205317"]
+        L2_CHECK["demo_check<br/>used: 1 &lt; 2 &#x2192; free: true"]
+        L2_CALL["Twilio WebRTC call<br/>max 50s auto-cutoff"]
+        L2_USE["demo_use &#x2192; Redis INCR<br/>demo:+331... = 2<br/>demo:total = 2"]
+        L2_MSG["Bot: &#x260E;&#xFE0F; +33140205317<br/>&#x1F1EB;&#x1F1F7; France &#xB7; 0m35s &#xB7; 7&#x2B50;<br/>Balance: 0&#x2B50;<br/>Pretty cool right? &#x1F60E;"]
+
+        L1_MSG --> L2
+        L2 --> L2_CHECK
+        L2_CHECK --> L2_CALL
+        L2_CALL --> L2_USE
+        L2_USE --> L2_MSG
+    end
+
+    TIP --> L1
+
+    %% ============================================================
+    %% RICKROLL CALLS
+    %% ============================================================
+    subgraph RICK_BLK["&#x1F3B5; Rickroll Calls"]
+        direction TB
+
+        R1["&#x260E;&#xFE0F; Call #3: +12484345508"]
+        R1_CHECK["demo_check<br/>used: 0 &lt; 2 &#x2192; free: true"]
+        R1_CALL["Twilio WebRTC call<br/>max 50s auto-cutoff"]
+        R1_USE["demo_use &#x2192; Redis INCR<br/>demo:+124... = 1<br/>demo:total = 3"]
+        R1_MSG["Bot: &#x260E;&#xFE0F; +12484345508<br/>&#x1F1FA;&#x1F1F8; US &#xB7; 0m51s &#xB7; 11&#x2B50;<br/>Balance: 0&#x2B50;<br/>You're on fire! &#x1F525;"]
+        R1_EASTER["&#x1F3B8; notify.js:<br/>rickroll_sent = null<br/>&#x2192; sendPhoto + caption<br/>&#x2192; Set rickroll_sent = 1"]
+
+        R1 --> R1_CHECK
+        R1_CHECK --> R1_CALL
+        R1_CALL --> R1_USE
+        R1_USE --> R1_MSG
+        R1_USE --> R1_EASTER
+
+        R2["&#x260E;&#xFE0F; Call #4: +12484345508"]
+        R2_CHECK["demo_check<br/>used: 1 &lt; 2 &#x2192; free: true"]
+        R2_CALL["Twilio WebRTC call<br/>max 50s auto-cutoff"]
+        R2_USE["demo_use &#x2192; Redis INCR<br/>demo:+124... = 2<br/>demo:total = 4"]
+        R2_MSG["Bot: &#x260E;&#xFE0F; +12484345508<br/>&#x1F1FA;&#x1F1F8; US &#xB7; 0m51s &#xB7; 11&#x2B50;<br/>Balance: 0&#x2B50;<br/>Last freebie! &#x1F30D;"]
+        R2_SKIP["rickroll_sent = 1<br/>&#x2192; skip photo &#x2705;"]
+
+        R1_MSG --> R2
+        R2 --> R2_CHECK
+        R2_CHECK --> R2_CALL
+        R2_CALL --> R2_USE
+        R2_USE --> R2_MSG
+        R2_USE --> R2_SKIP
+    end
+
+    L2_MSG --> R1
+
+    %% ============================================================
+    %% PAYMENT WALL
+    %% ============================================================
+    subgraph PAY_BLK["&#x1F4B3; Payment Wall"]
+        direction TB
+
+        R3["&#x260E;&#xFE0F; Call #5: any demo number"]
+        R3_CHECK["demo_check<br/>used: 2 &#x2265; 2 &#x2192; free: false"]
+        R3_NODEMO["isDemo = false<br/>balance = 0"]
+        R3_GUARD["balance &#x2264; 0 AND !isDemo"]
+        R3_TIMER["5s countdown timer"]
+        R3_END["endCall()"]
+        R3_INVOICE["openStarsPayment(300)<br/>&#x1F4B3; Telegram Stars invoice<br/>300&#x2B50; = 30 min US calls"]
+
+        R3 --> R3_CHECK
+        R3_CHECK --> R3_NODEMO
+        R3_NODEMO --> R3_GUARD
+        R3_GUARD --> R3_TIMER
+        R3_TIMER --> R3_END
+        R3_END --> R3_INVOICE
+    end
+
+    R2_MSG --> R3
+
+    %% ============================================================
+    %% SERVICES (external)
+    %% ============================================================
+    TWILIO_SVC["&#x1F4DE; Twilio<br/>WebRTC + PSTN"]
+    REDIS_SVC["&#x1F5C4;&#xFE0F; Upstash Redis<br/>demo counters<br/>rickroll flag"]
+    TG_API["&#x1F916; Telegram Bot API<br/>sendMessage<br/>sendPhoto"]
+
+    L1_CALL -. "WebRTC" .-> TWILIO_SVC
+    L2_CALL -. "WebRTC" .-> TWILIO_SVC
+    R1_CALL -. "WebRTC" .-> TWILIO_SVC
+    R2_CALL -. "WebRTC" .-> TWILIO_SVC
+
+    L1_CHECK -. "GET" .-> REDIS_SVC
+    L2_CHECK -. "GET" .-> REDIS_SVC
+    R1_CHECK -. "GET" .-> REDIS_SVC
+    R2_CHECK -. "GET" .-> REDIS_SVC
+    R3_CHECK -. "GET" .-> REDIS_SVC
+    L1_USE -. "INCR" .-> REDIS_SVC
+    L2_USE -. "INCR" .-> REDIS_SVC
+    R1_USE -. "INCR" .-> REDIS_SVC
+    R2_USE -. "INCR" .-> REDIS_SVC
+    R1_EASTER -. "GET/SET" .-> REDIS_SVC
+
+    L1_MSG -. "sendMessage" .-> TG_API
+    L2_MSG -. "sendMessage" .-> TG_API
+    R1_MSG -. "sendMessage" .-> TG_API
+    R2_MSG -. "sendMessage" .-> TG_API
+    R1_EASTER -. "sendPhoto" .-> TG_API
+
+    %% ============================================================
+    %% STYLES
+    %% ============================================================
+    classDef clrDemo fill:#eff6ff,stroke:#3b82f6,color:#000
+    classDef clrTwilio fill:#f0fdfa,stroke:#14b8a6,color:#000
+    classDef clrRedis fill:#f5f3ff,stroke:#8b5cf6,color:#000
+    classDef clrBot fill:#fdf2f8,stroke:#ec4899,color:#000
+    classDef clrEaster fill:#fffbeb,stroke:#f59e0b,stroke-width:3px,color:#000
+    classDef clrPayment fill:#fef2f2,stroke:#ef4444,stroke-width:3px,color:#000
+    classDef clrService fill:#fff,stroke:#999,color:#000,stroke-dasharray:5 5
+    classDef clrStart fill:#f0fdf4,stroke:#22c55e,stroke-width:3px,color:#000
+
+    class START clrStart
+    class WELCOME,BUTTONS,TIP clrBot
+    class L1,L2,R1,R2,R3 clrDemo
+    class L1_CHECK,L2_CHECK,R1_CHECK,R2_CHECK,R3_CHECK clrRedis
+    class L1_CALL,L2_CALL,R1_CALL,R2_CALL clrTwilio
+    class L1_USE,L2_USE,R1_USE,R2_USE clrRedis
+    class L1_MSG,L2_MSG,R1_MSG,R2_MSG clrBot
+    class R1_EASTER clrEaster
+    class R2_SKIP clrRedis
+    class R3_NODEMO,R3_GUARD,R3_TIMER,R3_END clrPayment
+    class R3_INVOICE clrPayment
+    class TWILIO_SVC,REDIS_SVC,TG_API clrService
+
+    %% Outer subgraph — warm yellow containers
+    style WELCOME_BLK fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style LOUVRE_BLK fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style RICK_BLK fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style PAY_BLK fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+            </pre>
+        </div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Theme
+        var saved = localStorage.getItem('phoneout-flow-theme');
+        if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('themeToggle').onclick = function () {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+            localStorage.setItem('phoneout-flow-theme', isLight ? 'dark' : 'light');
+        };
+
+        // Mermaid
+        var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        mermaid.initialize({
+            theme: isDark ? 'dark' : 'default',
+            themeVariables: isDark ? {
+                primaryColor: '#1a1a2e', primaryTextColor: '#e0e0e0',
+                primaryBorderColor: '#6078ff', lineColor: '#888',
+                secondaryColor: '#2a2a40', tertiaryColor: '#0f0f1a',
+                clusterBkg: '#1a1a2e', clusterBorder: '#2a2a40',
+                edgeLabelBackground: '#1a1a2e'
+            } : {
+                primaryColor: '#ffffff', primaryTextColor: '#000',
+                primaryBorderColor: '#d1d5db', lineColor: '#aaa',
+                secondaryColor: '#f9fafb', tertiaryColor: '#f3f4f6',
+                clusterBkg: '#fafafa', clusterBorder: '#e2e4ef',
+                edgeLabelBackground: '#fff',
+                nodeBorder: '#d1d5db', mainBkg: '#ffffff',
+                nodeTextColor: '#000', clusterTextColor: '#000'
+            },
+            flowchart: { curve: 'basis', padding: 14, nodeSpacing: 30, rankSpacing: 55 },
+            fontSize: 11,
+            fontFamily: 'Lato, sans-serif'
+        });
+
+        // Pan + Zoom
+        var container = document.getElementById('diagramContainer');
+        var inner = document.getElementById('diagram-inner');
+        var zoomLabel = document.getElementById('zoomLevel');
+        var scale = 1, panX = 0, panY = 0;
+        var baseScale = 1;
+        var isDragging = false, dragStartX, dragStartY, startPanX, startPanY;
+
+        function applyTransform() {
+            inner.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+            zoomLabel.textContent = Math.round((scale / baseScale) * 100) + '%';
+        }
+
+        function initZoom() {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            var fitScale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            scale = fitScale * 4;
+            baseScale = scale;
+            panX = 20;
+            panY = 20;
+            applyTransform();
+        }
+
+        setTimeout(initZoom, 500);
+        setTimeout(initZoom, 1500);
+
+        container.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.92 : 1.08;
+            var rect = container.getBoundingClientRect();
+            var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+            var newScale = scale * delta;
+            panX = mx - (mx - panX) * (newScale / scale);
+            panY = my - (my - panY) * (newScale / scale);
+            scale = newScale;
+            applyTransform();
+        }, { passive: false });
+
+        container.addEventListener('mousedown', function (e) {
+            isDragging = true;
+            dragStartX = e.clientX; dragStartY = e.clientY;
+            startPanX = panX; startPanY = panY;
+        });
+        window.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            panX = startPanX + (e.clientX - dragStartX);
+            panY = startPanY + (e.clientY - dragStartY);
+            applyTransform();
+        });
+        window.addEventListener('mouseup', function () { isDragging = false; });
+
+        document.getElementById('zoomIn').onclick = function () { scale *= 1.25; applyTransform(); };
+        document.getElementById('zoomOut').onclick = function () { scale *= 0.75; applyTransform(); };
+        document.getElementById('zoomFit').onclick = function () {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            scale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            panX = (cw - sw * scale) / 2;
+            panY = (ch - sh * scale) / 2;
+            applyTransform();
+        };
+    </script>
+
+</body>
+
+</html>

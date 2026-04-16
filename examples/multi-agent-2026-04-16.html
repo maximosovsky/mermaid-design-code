@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Collaboration — 100star — 2026-04-16</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0f0f1a;
+            --text: #e0e0e0;
+            --accent: #6078ff;
+            --card-bg: #1a1a2e;
+            --border: #2a2a40;
+            --muted: #888;
+            --zoom-bg: #1a1a2e;
+            --zoom-border: #333;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f7;
+            --text: #33334f;
+            --accent: #6078ff;
+            --card-bg: #fff;
+            --border: #e2e4ef;
+            --muted: #767ead;
+            --zoom-bg: #fff;
+            --zoom-border: #ccc;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            flex-shrink: 0;
+            gap: 16px;
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            white-space: nowrap;
+        }
+
+        .legend {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            flex-wrap: wrap;
+        }
+
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot.base { background: #e5e7eb; }
+        .dot.accent { background: #6366f1; }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-toggle:hover { transform: scale(1.15); }
+        .theme-toggle img { width: 24px; height: 24px; }
+
+        .theme-toggle .icon-moon {
+            filter: brightness(0) saturate(100%) invert(84%) sepia(60%) saturate(600%) hue-rotate(5deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun {
+            filter: brightness(0) saturate(100%) invert(75%) sepia(90%) saturate(500%) hue-rotate(360deg) brightness(105%);
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+        [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+        .diagram-container {
+            flex: 1;
+            overflow: hidden;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            position: relative;
+            cursor: grab;
+        }
+
+        .diagram-container:active { cursor: grabbing; }
+
+        #diagram-inner {
+            transform-origin: 0 0;
+            position: absolute;
+            padding: 32px;
+        }
+
+        .diagram-container .mermaid { min-width: max-content; }
+
+        .zoom-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .zoom-controls button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--zoom-border);
+            border-radius: 6px;
+            background: var(--zoom-bg);
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .zoom-controls button:hover { opacity: 0.8; }
+
+        .zoom-info {
+            font-size: 11px;
+            color: var(--muted);
+            min-width: 36px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <h1>&#x1F916; Multi-Agent Collaboration</h1>
+        <div class="legend">
+            <span><i class="dot base"></i> Standard Components</span>
+            <span><i class="dot accent"></i> Agents & Flow</span>
+        </div>
+        <div class="top-bar-right">
+            <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                <img class="icon-moon" src="https://raw.githubusercontent.com/maximosovsky/site-design/master/icons/moon.svg" alt="Dark">
+                <img class="icon-sun" src="https://raw.githubusercontent.com/maximosovsky/site-design/master/icons/sun.svg" alt="Light">
+            </button>
+        </div>
+    </div>
+
+    <div class="diagram-container" id="diagramContainer">
+        <div class="zoom-controls">
+            <button id="zoomOut" title="Zoom Out">&minus;</button>
+            <span class="zoom-info" id="zoomLevel">100%</span>
+            <button id="zoomIn" title="Zoom In">+</button>
+            <button id="zoomFit" title="Fit">&#x22A1;</button>
+        </div>
+        <div id="diagram-inner">
+            <pre class="mermaid">
+graph TB
+    USER(["👤 User"])
+    
+    subgraph MISSION_CONTROL["🚀 Mission Control"]
+        direction TB
+        ORCH{{"🤖 Orchestrator Agent"}}
+        PLANNER["🧠 Task Planner"]
+        SYNTHESIS{{"🤖 Synthesis Engine"}}
+    end
+
+    subgraph SPECIALISTS["👥 Specialist Agents"]
+        direction LR
+        RESEARCH{{"🤖 Research Agent"}}
+        CODING{{"🤖 Coding Agent"}}
+        REVIEW{{"🤖 Review Agent"}}
+    end
+
+    subgraph SHARED_RESOURCES["🗄️ Shared Resources"]
+        direction LR
+        VECTOR[("🗄️ Vector Memory")]
+        TOOLS{"🛠️ Tool execution"}
+    end
+
+    %% Flows
+    USER -->|Prompt| ORCH
+    ORCH -.->|1. Parse and Plan| PLANNER
+    PLANNER -->|Delegate Task A| RESEARCH
+    PLANNER -->|Delegate Task B| CODING
+    
+    RESEARCH -->|Write Findings| VECTOR
+    CODING -->|Invoke| TOOLS
+    TOOLS -->|Log result| VECTOR
+    
+    CODING -->|Submit PR| REVIEW
+    RESEARCH -.->|2. Summaries| SYNTHESIS
+    REVIEW -.->|3. Approved Code| SYNTHESIS
+    
+    SYNTHESIS -->|Final Response| USER
+
+    %% Styling
+    classDef clrNotionBase    fill:#ffffff,stroke:#e5e7eb,color:#000,stroke-width:2px
+    classDef clrNotionAccent  fill:#f8fafc,stroke:#6366f1,color:#000,stroke-width:2px
+    
+    class USER,PLANNER,VECTOR,TOOLS clrNotionBase
+    class ORCH,RESEARCH,CODING,REVIEW,SYNTHESIS clrNotionAccent
+
+    style MISSION_CONTROL fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style SPECIALISTS fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    style SHARED_RESOURCES fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#000
+    
+    %% Semantic Link Coloring (Accent color for main flows)
+    linkStyle 0 stroke:#6366f1,stroke-width:2px;
+    linkStyle 3 stroke:#6366f1,stroke-width:2px;
+    linkStyle 4 stroke:#6366f1,stroke-width:2px;
+    linkStyle 8 stroke:#6366f1,stroke-width:2px;
+    linkStyle 10 stroke:#6366f1,stroke-width:2px;
+            </pre>
+        </div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Theme
+        var saved = localStorage.getItem('flow-theme');
+        if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('themeToggle').onclick = function () {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+            localStorage.setItem('flow-theme', isLight ? 'dark' : 'light');
+        };
+
+        // Mermaid
+        var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        mermaid.initialize({
+            theme: isDark ? 'dark' : 'default',
+            themeVariables: isDark ? {
+                primaryColor: '#1a1a2e', primaryTextColor: '#e0e0e0',
+                primaryBorderColor: '#6078ff', lineColor: '#888',
+                secondaryColor: '#2a2a40', tertiaryColor: '#0f0f1a',
+                clusterBkg: '#1a1a2e', clusterBorder: '#2a2a40',
+                edgeLabelBackground: '#1a1a2e'
+            } : {
+                primaryColor: '#ffffff', primaryTextColor: '#000',
+                primaryBorderColor: '#d1d5db', lineColor: '#aaa',
+                secondaryColor: '#f9fafb', tertiaryColor: '#f3f4f6',
+                clusterBkg: '#fafafa', clusterBorder: '#e2e4ef',
+                edgeLabelBackground: '#fff',
+                nodeBorder: '#d1d5db', mainBkg: '#ffffff',
+                nodeTextColor: '#000', clusterTextColor: '#000'
+            },
+            flowchart: { curve: 'basis', padding: 14, nodeSpacing: 30, rankSpacing: 55 },
+            fontSize: 11,
+            fontFamily: 'Lato, sans-serif'
+        });
+
+        // Pan + Zoom
+        var container = document.getElementById('diagramContainer');
+        var inner = document.getElementById('diagram-inner');
+        var zoomLabel = document.getElementById('zoomLevel');
+        var scale = 1, panX = 0, panY = 0;
+        var baseScale = 1;
+        var isDragging = false, dragStartX, dragStartY, startPanX, startPanY;
+
+        function applyTransform() {
+            inner.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+            zoomLabel.textContent = Math.round((scale / baseScale) * 100) + '%';
+        }
+
+        function initZoom() {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            var fitScale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            scale = fitScale * 3; // baseScale around 300% for readability 
+            baseScale = scale;
+            panX = 20;
+            panY = 20;
+            applyTransform();
+        }
+
+        setTimeout(initZoom, 500);
+        setTimeout(initZoom, 1500);
+
+        container.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? 0.92 : 1.08;
+            var rect = container.getBoundingClientRect();
+            var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+            var newScale = scale * delta;
+            panX = mx - (mx - panX) * (newScale / scale);
+            panY = my - (my - panY) * (newScale / scale);
+            scale = newScale;
+            applyTransform();
+        }, { passive: false });
+
+        container.addEventListener('mousedown', function (e) {
+            isDragging = true;
+            dragStartX = e.clientX; dragStartY = e.clientY;
+            startPanX = panX; startPanY = panY;
+        });
+        window.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            panX = startPanX + (e.clientX - dragStartX);
+            panY = startPanY + (e.clientY - dragStartY);
+            applyTransform();
+        });
+        window.addEventListener('mouseup', function () { isDragging = false; });
+
+        document.getElementById('zoomIn').onclick = function () { scale *= 1.25; applyTransform(); };
+        document.getElementById('zoomOut').onclick = function () { scale *= 0.75; applyTransform(); };
+        document.getElementById('zoomFit').onclick = function () {
+            var svg = inner.querySelector('svg');
+            if (!svg) return;
+            var cw = container.clientWidth, ch = container.clientHeight;
+            var sw = svg.width.baseVal.value || svg.getBoundingClientRect().width / scale;
+            var sh = svg.height.baseVal.value || svg.getBoundingClientRect().height / scale;
+            if (!sw || !sh) return;
+            scale = Math.min(cw / (sw + 64), ch / (sh + 64)) * 0.92;
+            panX = (cw - sw * scale) / 2;
+            panY = (ch - sh * scale) / 2;
+            applyTransform();
+        };
+    </script>
+</body>
+</html>

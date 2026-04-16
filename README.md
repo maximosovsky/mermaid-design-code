@@ -137,6 +137,8 @@ mermaid-design-code/
 |---------|-------------|
 | [project-flow-2026-03-11.html](examples/project-flow-2026-03-11.html) | Project lifecycle pipeline ([live](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html)) |
 | [project-flow-2026-03-11-description.md](examples/project-flow-2026-03-11-description.md) | Text walkthrough |
+| [multi-agent-2026-04-16.html](examples/multi-agent-2026-04-16.html) | Multi-Agent Collaboration (Notion Clean style) ([live](https://maximosovsky.github.io/mermaid-design-code/examples/multi-agent-2026-04-16.html)) |
+| [multi-agent-2026-04-16-description.md](examples/multi-agent-2026-04-16-description.md) | Text walkthrough |
 
 ---
 
