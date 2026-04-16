@@ -126,7 +126,7 @@ mermaid-design-code/
 - [x] Example description
 - [x] LLM-ready docs
 - [x] GitHub Pages for live example
-- [ ] More example diagrams
+- [x] More example diagrams (added Multi-Agent AI flow)
 - [ ] Diagram template generator
 
 ---

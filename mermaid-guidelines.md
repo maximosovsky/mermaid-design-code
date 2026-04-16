@@ -159,12 +159,12 @@ classDef codeBox    fill:#6366f1,stroke:#818cf8,stroke-width:3px,color:#fff
 Services use dashed border (`stroke-dasharray:5 5`).
 
 ### Extended Styles (Notion Clean)
-Для некоторых диаграмм (особенно AI-схем, где важно показать чистую архитектуру без лишнего цветового шума) используется минималистичный монохромный стиль с одним акцентным цветом ("Notion Clean").
+For some diagrams (especially AI architectures where it is important to show clean structure without color noise), use a minimalist monochrome style with a single accent color ("Notion Clean").
 
-**Правила Notion Clean:**
-- Использовать `Notion Base` класс для всех рядовых нодов (белый фон, нейтральный `stroke`).
-- Использовать акцентный цвет только для ключевых узлов потока (например, `Notion Accent` с тонким ярким border).
-- Стрелки потоковых данных выделяются тем же акцентным цветом: `linkStyle 0 stroke:#6366f1,stroke-width:2px;`
+**Notion Clean Rules:**
+- Use the `Notion Base` class for all standard nodes (white background, neutral `stroke`).
+- Use the accent color only for key flow nodes (e.g., `Notion Accent` with a thin bright border).
+- Highlight data flow arrows with the same accent color: `linkStyle 0 stroke:#6366f1,stroke-width:2px;`
 
 ```mermaid
 classDef clrNotionBase    fill:#ffffff,stroke:#e5e7eb,color:#000,stroke-width:2px
@@ -228,7 +228,7 @@ db@{ shape: cylinder, label: "🗄️ Database" }
 
 | Shape | Syntax | Renders |
 |-------|--------|---------|
-| Person (человечек) | `id@{ shape: person, label: "👤 User" }` | Stick figure |
+| Person | `id@{ shape: person, label: "👤 User" }` | Stick figure |
 | Cylinder (database) | `id@{ shape: cylinder, label: "DB" }` | Cylinder |
 | Stadium | `id@{ shape: stadium, label: "Text" }` | Rounded pill |
 | Hexagon | `id@{ shape: hex, label: "Text" }` | Hexagon |
@@ -239,11 +239,11 @@ db@{ shape: cylinder, label: "🗄️ Database" }
 | Lean left | `id@{ shape: lean-l, label: "Text" }` | Parallelogram ← |
 
 **AI/Agent Domain Vocabulary:**
-В AI-схемах (Multi-Agent, RAG, Mem0) придерживайтесь следующей семантики:
-- **Agent (Агент)**: `hex` (шестиугольник) `id@{ shape: hex, label: "🤖 Agent" }`
-- **LLM / Model**: `notch-rect` (прямоугольник с вырезом) или `dbl-circ`
-- **Vector Store (Память)**: `cylinder` (цилиндр) `id@{ shape: cylinder, label: "🗄️ Vector DB" }`
-- **Tool / Action**: `diamond` (ромб) `id@{ shape: diamond, label: "🛠️ Tool Call" }`
+For AI architectures (Multi-Agent, RAG, Mem0), adhere to the following standard shapes (using classic flowchart syntax for broad compatibility):
+- **Agent**: Hexagon `id{{"🤖 Agent"}}`
+- **LLM / Model**: Standard Node `id["🧠 LLM"]`
+- **Vector Store**: Cylinder `id[("🗄️ Vector DB")]`
+- **Tool / Action**: Rhombus `id{"🛠️ Tool Call"}`
 
 **Note:** `classDef` works with custom shapes — use `class user myClass` as usual.
 

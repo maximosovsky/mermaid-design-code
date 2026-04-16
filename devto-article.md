@@ -64,6 +64,8 @@ classDef codeBox    fill:#6366f1, stroke:#818cf8   → indigo (inverted)
 
 Outer subgraphs use warm yellow (`fill:#fffbeb, stroke:#f59e0b`) to create visual hierarchy: yellow containers → gray subblocks → pastel nodes.
 
+*(Update: For AI architectures and complex logic flows, the design code now also includes a **"Notion Clean"** style. It uses monochrome nodes and edges with a single accent color for main flow lines. Perfect for reducing visual noise when showing agents and memory stores.)*
+
 ## Dark Mode That Actually Works
 
 The biggest pain point I found on StackOverflow: "My diagram looks fine in light mode but is unreadable in dark mode."
@@ -144,7 +146,9 @@ These sound obvious. They're not, until you forget one and spend 20 minutes debu
 
 ## Try It
 
-**Live example:** [Project Lifecycle Pipeline](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html) — a real 50+ node diagram with zoom/pan, dark/light theme, legend, and pastel palette.
+**Live example 1:** [Project Lifecycle Pipeline](https://maximosovsky.github.io/mermaid-design-code/examples/project-flow-2026-03-11.html) — a real 50+ node diagram with zoom/pan, dark/light theme, legend, and pastel palette.
+
+**Live example 2:** [Multi-Agent Collaboration](https://maximosovsky.github.io/mermaid-design-code/examples/multi-agent-2026-04-16.html) — an AI architecture flow using semantic shapes (Hexagons, Cylinders) in the new Notion Clean style.
 
 **Repository:** [github.com/maximosovsky/mermaid-design-code](https://github.com/maximosovsky/mermaid-design-code)
 

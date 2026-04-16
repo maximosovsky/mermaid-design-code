@@ -1,26 +1,26 @@
 # Multi-Agent Collaboration (Notion Clean Style)
 
-Эта схема демонстрирует паттерн взаимодействия нескольких узкоспециализированных ИИ-агентов. Отрисована с использованием новых семантических форм (шестиугольники для агентов, цилиндры для баз данных) и стиля `Notion Clean`.
+This diagram demonstrates the interaction pattern of multiple highly specialized AI agents. Rendered using new semantic shapes (hexagons for agents, cylinders for databases) and the `Notion Clean` style.
 
-## Поток выполнения (Pipeline)
+## Pipeline Flow
 
-> Пользователь → Оркестратор → Планировщик → Делегирование 2-м агентам → Инструменты / Память → Сбор результатов → Синтезатор → Ответ пользователю
+> User → Orchestrator → Task Planner → Delegation to 2 Agents → Tools / Memory → Collect Results → Synthesis → User Response
 
-## Разбор компонентов
+## Components Breakdown
 
-### 1. 🚀 Mission Control (Управляющий слой)
-- **Orchestrator Agent**: Главная точка входа. Принимает промпт пользователя. Имеет форму `hex` (шестиугольник) и является акцентным (отмечен цветом).
-- **Task Planner**: Форма `notch-rect`. Парсит промпт разбивает его на подзадачи.
-- **Synthesis Engine**: Агент-синтезатор (`hex`), собирающий разрозненные ответы от нижестоящих агентов в единый финальный ответ.
+### 1. 🚀 Mission Control (Management Layer)
+- **Orchestrator Agent**: Primary entry point. Receives user prompts. Rendered as a `hex` (hexagon) shape and uses the accent color for highlighting.
+- **Task Planner**: Parses the prompt and breaks it down into subtasks.
+- **Synthesis Engine**: A synthesizer agent (`hex`) that aggregates disparate responses from specialized agents into a single final output.
 
-### 2. 👥 Specialist Agents (Исполнители)
-- **Research Agent**: Занимается поиском информации, пишет результаты в общую векторную базу.
-- **Coding Agent**: Генерирует код, дергает внешние ручки (инструменты).
-- **Review Agent**: Принимает PR (результаты) от Coding Agent и валидирует их перед финальным синтезом.
-Все агенты-исполнители реализованы через форму `hex` с `clrNotionAccent`.
+### 2. 👥 Specialist Agents (Execution)
+- **Research Agent**: Responsible for information retrieval, writes results to the shared vector database.
+- **Coding Agent**: Generates code, invokes external tools.
+- **Review Agent**: Receives PRs (results) from the Coding Agent and validates them before final synthesis.
+All execution agents use the `hex` shape with the `clrNotionAccent` class.
 
-### 3. 🗄️ Shared Resources (Общие ресурсы)
-- **Vector Memory**: Форма `cylinder`. Играет роль долговременной или разделяемой (Shared) памяти, куда пишет Research Agent и откуда могут читать другие. Базовый `clrNotionBase` стиль.
-- **Tool execution**: Форма `diamond` (Ромб), представляющая инфраструктурный слой инструментов (API calls, терминал и т.д.), которые выполняет Coding Agent. 
+### 3. 🗄️ Shared Resources
+- **Vector Memory**: `cylinder` shape. Acts as long-term or shared memory where the Research Agent writes and others can read from. Uses basic `clrNotionBase` styling.
+- **Tool execution**: `diamond` shape. Represents the infrastructure tool layer (API calls, terminals, etc.) invoked by the Coding Agent.
 
-Данный подход обеспечивает четкое разграничение ответственности, а благодаря стилю Notion Clean внимание концентрируется только на агентах-исполнителях и их основных информационных потоках.
+This approach ensures a clear separation of concerns. The Notion Clean style reduces visual noise, focusing attention exclusively on the execution agents and their primary data flows.
